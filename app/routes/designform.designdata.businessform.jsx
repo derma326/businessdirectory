@@ -103,6 +103,7 @@ export async function action({
       }
       if (!shopifyCustomerId) {
           const shopifyAccessToken = process.env.SHOPIFY_ACCESS_TOKEN;
+          console.log(shopifyAccessToken);
           const shopifyCustomerResponse = await fetch("https://vwygcw-t0.myshopify.com/admin/api/2023-01/customers.json", {
               method: "POST",
               headers: {
