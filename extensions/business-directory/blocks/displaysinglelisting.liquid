@@ -1,0 +1,69 @@
+<div class="business-directory page-width" x-data="businessDirectory">
+
+    <template x-if="singleListing">
+        <div class="single-listing">
+            <h1 x-text="singleListing.listingTitle"></h1>
+            <p><strong>Instructor:</strong> <span x-text="singleListing.Instructor"></span></p>
+            <p><strong>Expertise:</strong> <span x-text="singleListing.expertise"></span></p>
+            <p><strong>Website:</strong> 
+                <a :href="singleListing.url" x-text="singleListing.url" target="_blank"></a>
+            </p>
+            <p><strong>Phone:</strong> <span x-text="singleListing.phone"></span></p>
+            <p><strong>Email:</strong> 
+                <a :href="'mailto:' + singleListing.email" x-text="singleListing.email"></a>
+            </p>
+            <p><strong>Tags:</strong> <span x-text="singleListing.tags"></span></p>
+            <p><strong>Address:</strong> <span x-text="singleListing.address"></span></p>
+            <p><strong>ZIP Code:</strong> <span x-text="singleListing.zip"></span></p>
+            <p><strong>Category:</strong> <span x-text="singleListing.categoryName"></span></p>
+            <p><strong>Created At:</strong> 
+                <span x-text="new Date(singleListing.createdAt).toLocaleDateString()"></span>
+            </p>
+        </div>
+    </template>
+
+   
+</div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script>
+ document.addEventListener("alpine:init", () => {
+    Alpine.data("businessDirectory", () => ({
+        singleListing: null, // Store single listing data
+
+        async fetchSingleListing() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const slug = urlParams.get("slug");
+
+            if (!slug) return; // Skip if no slug is present
+
+            try {
+                const response = await fetch(`/apps/proxy/businesssinglelisting?slug=${encodeURIComponent(slug)}`);
+                const data = await response.json();
+
+                console.log("Fetched Single Listing Data:", data);
+
+                this.singleListing = data; // Store single listing data
+            } catch (error) {
+                console.error("Error fetching single listing:", error);
+                this.singleListing = null;
+            }
+        },
+
+        init() {
+            this.fetchSingleListing();
+        }
+    }));
+});
+
+  </script>
+
+
+{% schema %}
+{
+  "name": "Display Single Listing",
+  "target": "section",
+  "stylesheet": "display-handler.css",
+  "settings": []
+}
+{% endschema %}

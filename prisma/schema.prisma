@@ -1,0 +1,61 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Note that some adapters may set a maximum length for the String type by default, please ensure your strings are long
+// enough when changing adapters.
+// See https://www.prisma.io/docs/orm/reference/prisma-schema-reference#string for more information
+datasource db {
+  provider = "sqlite"
+  url      = "file:dev.sqlite"
+}
+
+model Session {
+  id            String    @id
+  shop          String
+  state         String
+  isOnline      Boolean   @default(false)
+  scope         String?
+  expires       DateTime?
+  accessToken   String
+  userId        BigInt?
+  firstName     String?
+  lastName      String?
+  email         String?
+  accountOwner  Boolean   @default(false)
+  locale        String?
+  collaborator  Boolean?  @default(false)
+  emailVerified Boolean?  @default(false)
+}
+
+model Categories {
+  id            Int    @id @default(autoincrement())
+  categoryName  String
+  categorySlug  String
+  createdAt     DateTime @default(now()) 
+
+  businessListings businessDirectory[] // One-to-Many relation
+}
+
+model businessDirectory {
+  id            Int    @id @default(autoincrement())
+  listingTitle  String
+  slug          String?  // Added slug field temporarily without @unique
+  Instructor    String?
+  expertise     String
+  url           String?
+  link          String?
+  phone         String?
+  email         String
+  tags          String?
+  address       String?
+  zip           String?
+  userId        BigInt
+  categoryId    Int
+  createdAt     DateTime @default(now()) 
+
+  category      Categories @relation(fields: [categoryId], references: [id]) // Relation to Categories
+}

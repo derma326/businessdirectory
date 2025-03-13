@@ -1,0 +1,239 @@
+  <div class="business-directory page-width" x-data="businessDirectory">
+    <!-- Search Form -->
+    <div class="main-input">
+      <input 
+        type="text" 
+        placeholder="Search Listings" 
+        x-model="searchQuery"
+        class="search-input"
+      />
+        <button @click="applySearch()" type="button">Find Listings</button>
+
+    <!-- Popup Button -->
+      <button @click="openPopup()" type="button" class="filter-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+          <path d="M3 6h18v2H3V6zm3 5h12v2H6v-2zm-3 5h18v2H3v-2z"/>
+        </svg>
+      </button>
+    </div>
+
+<!-- Popup -->
+<div x-show="isPopupOpen" class="popup-overlay" x-transition.opacity style="display: none;" @click.outside="closePopup()">
+  <div class="popup-content">
+    
+    <button @click="closePopup()" class="popup-close">✖</button>
+    <h3>Filter Options</h3>
+
+    <div class="popup-body">
+      <form @submit.prevent="applySearch()">
+        
+        <div class="for-two-full">
+          <label for="wpbdp-field-1">Listing Title</label>
+          <input type="text" id="wpbdp-field-1" x-model="searchFilters.listing_title">
+        </div>  
+
+        <div class="for-two-full">
+          <label for="wpbdp-field-3">Instructor or Course Name</label>
+          <input type="text" id="wpbdp-field-3" x-model="searchFilters.instructor_name">
+        </div>
+
+        <div class="for-two-full">
+          <label for="wpbdp-field-4">Expertise & Credentials</label>
+          <textarea id="wpbdp-field-4" x-model="searchFilters.expertise"></textarea>
+        </div>
+
+        <div class="for-two-half">
+          <label for="wpbdp-field-5">Website</label>
+          <input type="url" id="wpbdp-field-5" x-model="searchFilters.website">
+        </div>
+
+        <div class="for-two-half for-two-half-right">
+          <label for="wpbdp-field-6">Phone</label>
+          <input type="text" id="wpbdp-field-6" x-model="searchFilters.phone">
+        </div>
+
+        <div class="for-two-half">
+          <label for="wpbdp-field-7">Email</label>
+          <input type="email" id="wpbdp-field-7" x-model="searchFilters.email">
+        </div>
+
+        <div class="for-two-half for-two-half-right">
+          <label for="wpbdp-field-8">Listing Tags</label>
+          <input type="text" id="wpbdp-field-8" x-model="searchFilters.tags">
+        </div>
+
+        <div class="for-two-full">
+          <label for="wpbdp-field-9">Address</label>
+          <input type="text" id="wpbdp-field-9" x-model="searchFilters.address">
+        </div>
+
+        <div class="for-two-half">
+          <label for="wpbdp-field-10">ZIP Code</label>
+          <input type="text" id="wpbdp-field-10" x-model="searchFilters.zip_code">
+        </div>
+
+        <div class="wpbdp-submit-listing-form-actions wpbdp-full">
+          <button type="button" @click="closePopup()" class="submit-back-button button wpbdp-button wpbdp-button-secondary">Close</button>
+          <button type="submit" class="submit-next-button button wpbdp-button">Search</button>
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+</div>
+
+
+    <!-- New Line Button -->
+    <div class="wpbdp-main-links">
+
+    <a class="wpbdp-link" :href="'/pages/business-directory'"> View All Listings </a>
+
+
+      <button @click="redirectToPage()">Cert Pros Submit for Rvw</button>
+    </div>
+
+
+  <!-- Display Categories -->
+<ul class="wpbdp-categories-large">
+  <template x-for="category in categories" :key="category.id">
+    <li>
+      <a :href="'/pages/business-directory?category=' + category.categorySlug" x-text="category.categoryName"></a>
+    </li>
+  </template>
+</ul>
+
+
+
+
+  <template x-for="listing in filteredListings.length ? filteredListings : listings" :key="listing.id">
+      <div class="listing">
+  <a :href="'/pages/detail?slug=' + listing.slug" target="_blank">
+        <h3 x-text="listing.listingTitle"></h3>
+      </a>
+      <a :href="'#'" target="_blank">  <p> <span x-text="listing.categoryName"></span></p><a>
+    
+    
+        <p><strong>Website:</strong> <a :href="listing.url" x-text="listing.url"></a></p>
+            <p><strong>Phone:</strong> <span x-text="listing.phone"></span></p>
+        <p><strong>Address:</strong> <span x-text="listing.address"></span></p>
+      </div>
+  </template>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script>
+  document.addEventListener("alpine:init", () => {
+      Alpine.data("businessDirectory", () => ({
+          listings: [],
+          filteredListings: [],
+          categories: [],
+          searchQuery: "",
+          isPopupOpen: false,
+
+           searchFilters: {
+            listing_title: "",
+            instructor_name: "",
+            expertise: "",
+            website: "",
+            phone: "",
+            email: "",
+            tags: "",
+            address: "",
+            zip_code: "",
+        },
+
+
+ async fetchListings() {
+    try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const categorySlug = urlParams.get("category");
+
+        let endpoint = categorySlug
+            ? `/apps/proxy/category/${encodeURIComponent(categorySlug)}`
+            : `/apps/proxy/businesslistings`; // Default endpoint for all listings
+
+        const response = await fetch(endpoint);
+        const data = await response.json();
+
+        console.log("Fetched Listings Data:", data);
+
+        // Extract listings based on data structure
+        this.listings = categorySlug 
+            ? (Array.isArray(data.category?.businessListings) 
+                ? data.category.businessListings 
+                : [])
+            : (Array.isArray(data) 
+                ? data 
+                : []);
+
+        this.filteredListings = [...this.listings]; // Ensure reactivity
+    } catch (error) {
+        console.error("Error fetching listings:", error);
+        this.listings = []; // Fallback to empty array
+    }
+}
+  ,
+            async fetchCategories() {
+              try {
+                  const response = await fetch("/apps/proxy/categories");
+                  const data = await response.json();
+                  this.categories = data || [];
+              } catch (error) {
+                  console.error("Error fetching categories:", error);
+              }
+          },
+    applySearch() {
+            let query = this.searchQuery.toLowerCase();
+            let filters = this.searchFilters;
+
+            this.filteredListings = this.listings.filter((listing) => {
+                return (
+                    (!query || Object.values(listing).some(value =>
+                        typeof value === "string" && value.toLowerCase().includes(query)
+                    )) &&
+                    (!filters.listing_title || listing.listingTitle.toLowerCase().includes(filters.listing_title.toLowerCase())) &&
+                    (!filters.instructor_name || (listing.Instructor && listing.Instructor.toLowerCase().includes(filters.instructor_name.toLowerCase()))) &&
+                    (!filters.expertise || listing.expertise.toLowerCase().includes(filters.expertise.toLowerCase())) &&
+                    (!filters.website || (listing.url && listing.url.toLowerCase().includes(filters.website.toLowerCase()))) &&
+                    (!filters.phone || (listing.phone && listing.phone.includes(filters.phone))) &&
+                    (!filters.email || listing.email.toLowerCase().includes(filters.email.toLowerCase())) &&
+                    (!filters.tags || (listing.tags && listing.tags.toLowerCase().includes(filters.tags.toLowerCase()))) &&
+                    (!filters.address || (listing.address && listing.address.toLowerCase().includes(filters.address.toLowerCase()))) &&
+                    (!filters.zip_code || (listing.zip && listing.zip.includes(filters.zip_code)))
+                );
+            });
+
+            this.filteredListings = [...this.filteredListings]; // Ensure reactivity
+            this.isPopupOpen = false; // Close popup after search
+        },
+  redirectToPage() {
+      window.open("/pages/contact", "_blank"); // Opens in a new tab
+  },
+    openPopup() {
+              this.isPopupOpen = true;
+          },
+
+          closePopup() {
+              this.isPopupOpen = false;
+          },
+
+          init() {
+            this.fetchListings();
+              this.fetchCategories();
+            
+
+          }
+      }));
+  });
+  </script>
+
+
+{% schema %}
+{
+  "name": "Display Form Data",
+  "target": "section",
+  "stylesheet": "display-handler.css",
+  "settings": []
+}
+{% endschema %}

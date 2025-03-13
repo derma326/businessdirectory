@@ -1,0 +1,378 @@
+
+<h3> Add Listing </h3>
+
+
+<div class="wpbdp-submit-rootline">
+			<div class="wpbdp-rootline-section wpbdp-submit-section-plan_selection wpbdp-submit-section-current wpbdp-submit-checked" data-section-pos="1">
+			<div class="wpbdp-rootline-bar"></div>
+			<div class="wpbdp-rootline-circle">
+				<div class="wpbdp-rootline-counter">
+								<span>1</span>
+				</div>
+			</div>
+			<div class="wpbdp-rootline-section-name">Category selection</div>
+		</div>
+		<div class="wpbdp-rootline-section wpbdp-submit-section-listing_fields"
+         x-bind:class="{'wpbdp-submit-checked': step >= 2, 'wpbdp-current-step': step === 2}"
+     data-section-pos="2">
+
+			<div class="wpbdp-rootline-bar"></div>
+			<div class="wpbdp-rootline-circle">
+				<div class="wpbdp-rootline-counter">
+								<span>2</span>
+				</div>
+			</div>
+			<div class="wpbdp-rootline-section-name">Listing Information</div>
+		</div>
+       {% unless customer %}
+
+		<div class="wpbdp-rootline-section wpbdp-submit-section-account_creation"
+     x-bind:class="{'wpbdp-submit-checked': step === 3}" 
+     data-section-pos="3">
+
+			<div class="wpbdp-rootline-bar"></div>
+			<div class="wpbdp-rootline-circle">
+				<div class="wpbdp-rootline-counter">
+								<span>3</span>
+				</div>
+			</div>
+			<div class="wpbdp-rootline-section-name">Account Creation</div>
+		</div>
+        {% endunless  %}
+
+	</div>
+<div class="jewelry-design-form" x-data="jewelryForm">
+
+  
+ 
+  <h1 style="text-align: {{ block.settings.alignment }}">{{ block.settings.form_title }}</h1>
+
+  <!-- Step 1: Certification Type -->
+  <div class="form-step first_step" x-show="step === 1">
+    <form @submit.prevent="validateStep1()">
+      <select x-model="formData.design_options" name="design_options" required>
+        <option value="">Choose One</option>
+        <option value="1">Lumohs Certified Instructors</option>
+        <option value="2">Lumohs Dermaplane Certified Professional</option>
+      </select>
+
+<input type="hidden" name="customerId" x-model="formData.customerId" />
+
+        <!-- Error Message -->
+    <p x-show="step1Error" class="error-message" x-text="step1Error"></p>
+
+      <button type="button" @click="validateStep1()">Next</button>
+
+    </form>
+  </div>
+
+  <!-- Step 2: Listing Details -->
+  <div class="form-step second_step" x-show="step === 2">
+  
+    <form @submit.prevent="validateStep2()">
+
+    <div class="for-two-full">
+      <label for="listing_title">Listing Title <span class="required-symbol">*</span></label>
+      <input type="text" x-model="formData.listing_title" required>
+            <p x-show="errors.listing_title" class="error-message" x-text="errors.listing_title"></p>
+
+    </div>  
+
+       <div class="for-two-full">
+      <label for="instructor_name">Instructor or Course Name <span class="required-symbol">*</span></label>
+      <input type="text" x-model="formData.instructor_name" required>
+                  <p x-show="errors.instructor_name" class="error-message" x-text="errors.instructor_name"></p>
+
+      </div>
+
+ <div class="for-two-full">
+
+      <label for="expertise">Expertise & Credentials <span class="required-symbol">*</span></label>
+      <textarea x-model="formData.expertise" required></textarea>
+            <p x-show="errors.expertise" class="error-message" x-text="errors.expertise"></p>
+
+      </div>
+
+
+       <div class="for-two-half">
+
+      <label for="website">Website URL</label>
+      <input type="url" x-model="formData.website">
+            <p x-show="errors.website" class="error-message" x-text="errors.website"></p>
+
+      </div>
+
+      <div class="for-two-half for-two-half-right">
+
+      <label for="phone">Phone</label>
+      <input type="text" x-model="formData.phone">
+
+      </div>
+
+      <div class="for-two-half">
+      <label for="email">Email <span class="required-symbol">*</span></label>
+      <input type="email" x-model="formData.email" required>
+      <p x-show="errors.email" class="error-message" x-text="errors.email"></p>
+      </div>
+
+      <div class="for-two-half for-two-half-right">
+
+      <label for="tags">Listing Tags</label>
+      <input type="text" x-model="formData.tags">
+
+      </div>
+
+      <div class="for-two-full">
+      <label for="address">Address</label>
+      <input type="text" x-model="formData.address">
+      </div>
+
+      <div class="for-two-half">
+      <label for="zip_code">ZIP Code</label>
+      <input type="text" x-model="formData.zip_code">
+      </div>
+
+      <div class="wpbdp-submit-listing-form-actions wpbdp-full">
+      <button type="button" @click="step = 1" class="submit-back-button button wpbdp-button wpbdp-button-secondary">Back</button>
+     <button type="button" @click="validateStep2()" 
+                    class="submit-next-button button wpbdp-button"> 
+                {% if customer %}
+                    Submit
+                {% else %}
+                    Next
+                {% endif %}
+            </button>
+
+       </div>
+      
+    <!-- Error Message -->
+        <p x-show="step2Error" class="error-message" x-text="step2Error"></p>
+    </form>
+  </div>
+
+ {% unless customer %}
+  <!-- Step 3: User Registration -->
+  <div class="form-step third_step" x-show="step === 3">
+    <h2>User Registration</h2>
+    <form @submit.prevent="submitForm">
+
+    <div class="for-two-full">
+      <label for="first_name">First Name</label>
+      <input type="text" x-model="formData.first_name" required>
+            <p x-show="errors.first_name" class="error-message" x-text="errors.first_name"></p> <!-- Error Message -->
+
+      </div>
+
+      <div class="for-two-full">
+
+      <label for="last_name">Last Name</label>
+      <input type="text" x-model="formData.last_name" required>
+            <p x-show="errors.last_name" class="error-message" x-text="errors.last_name"></p> <!-- Error Message -->
+
+      </div>
+
+     
+
+     <div class="wpbdp-submit-listing-form-actions wpbdp-full">
+      <button type="button" @click="step = 2" class="submit-back-button button wpbdp-button wpbdp-button-secondary">Back</button>
+      <button type="submit" x-bind:disabled="submitting" class="submit-next-button button wpbdp-button">Submit</button>
+
+</div>
+
+
+    </form>
+  </div>
+  {% endunless %}
+  <div x-show="success" class="success-message" x-text="successMessage"></div>
+
+  <div x-show="errorMessage" class="error-message" x-text="errorMessage"></div>
+
+ 
+
+</div>
+
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<script>
+document.addEventListener("alpine:init", () => {
+    Alpine.data("jewelryForm", () => ({
+        step: 1,
+        step1Error: "",  
+        step2Error: "",  
+        submitting: false,
+        success: false,
+        errorMessage: "",
+        successMessage: "", // Add this line
+
+        categories: [],
+        formData: {
+            customerId: "{{ customer.id }}", // Add customerId here
+            design_options: "",
+            listing_title: "",
+            instructor_name: "",
+            expertise: "",
+            website: "",
+            phone: "",
+            email: "",
+            tags: "",
+            address: "",
+            zip_code: "",
+            first_name: "",
+            last_name: "",
+         
+        }, 
+         errors: {}, // Object to hold individual errors
+         init() {
+            console.log("Alpine component initialized.");
+            this.fetchCategories();
+        },
+        validateStep1() {
+        this.step1Error = "";  // Clear previous errors
+
+        if (!this.formData.design_options) {
+            this.step1Error = "Please select a valid certification type.";
+            return;
+        }
+
+        this.step = 2; // Proceed to Step 2 if valid
+    },
+     validateStep2() {
+            this.errors = {}; // Clear previous errors
+
+            if (!this.formData.listing_title) {
+                this.errors.listing_title = "Listing Title is required.";
+            }
+
+            if (!this.formData.instructor_name) {
+                this.errors.instructor_name = "Instructor or Course Name is required.";
+            }
+
+            if (!this.formData.expertise) {
+                this.errors.expertise = "Expertise & Credentials are required.";
+            }
+
+            if (!this.formData.email) {
+                this.errors.email = "Email is required.";
+            } else if (!this.formData.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+                this.errors.email = "Please enter a valid email.";
+            }
+
+            if (this.formData.website && !this.formData.website.match(/^https?:\/\/.+/)) {
+                this.errors.website = "Please enter a valid URL.";
+            }
+
+            // Only proceed if no errors are found
+             // Only proceed if no errors are found
+            if (Object.keys(this.errors).length === 0) {
+                {% if customer %}
+                    this.submitForm(); // Skip Step 3 and submit directly
+                {% else %}
+                    this.step = 3; // Proceed to Step 3 only if not logged in
+                {% endif %}
+            }
+        },
+        fetchCategories: async function() {
+            console.log("Fetching categories...");
+            try {
+                const response = await fetch("/apps/proxy/categories");
+                const data = await response.json();
+                console.log("Fetched Categories:", data);
+                this.categories = data;
+            } catch (error) {
+                console.error("Error fetching categories:", error);
+            }
+        },
+        async submitForm() {
+            this.submitting = true;
+            this.errorMessage = "";
+     this.errors = {}; // Clear previous errors
+
+  // Step 3 Validation
+    const nameRegex = /^[A-Za-z\s]+$/;
+       //alert('here');
+   
+
+     {% unless customer %}
+        // Validate First Name and Last Name (Only for guests)
+        if (!this.formData.first_name) {
+            this.errors.first_name = "First Name is required.";
+        }
+
+        if (!this.formData.last_name) {
+            this.errors.last_name = "Last Name is required.";
+        }
+
+        // Stop submission if there are errors
+        if (Object.keys(this.errors).length > 0) {
+            return;
+        }
+    {% endunless %}
+
+
+            try {
+                const response = await fetch("/apps/proxy/businessform", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(this.formData),
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+
+                     if (this.formData.customerId) {
+                        this.successMessage = "Listing submitted successfully!";
+                    } else {
+                        this.successMessage = "Customer created successfully. We have sent an email to activate the account.";
+                    }
+
+                    this.success = true;
+                    this.step = 1; // Reset form
+                    this.formData = {
+                        design_options: "",
+                        listing_title: "",
+                        instructor_name: "",
+                        expertise: "",
+                        website: "",
+                        phone: "",
+                        email: "",
+                        tags: "",
+                        address: "",
+                        zip_code: "",
+                        first_name: "",
+                        last_name: "",
+                    };
+                } else {
+                    this.errorMessage = data.error || "Submission failed.";
+                }
+            } catch (error) {
+                this.errorMessage = error.message;
+            } finally {
+                this.submitting = false;
+            }
+        }
+    }));
+});
+</script>
+
+
+{% schema %}
+{
+  "name": "Business Directory Form",
+  "target": "section",
+  "class": "frontend-form",
+  "stylesheet":"app-form.css",
+  "settings": [
+    {
+      "type": "text",
+      "id": "form_title",
+      "label": "Form Title"
+    },
+    {
+      "type": "text_alignment",
+      "id": "alignment",
+      "label": "Text Alignment",
+      "default": "center"
+    }
+  ]
+}
+{% endschema %}

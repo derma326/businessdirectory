@@ -1,0 +1,159 @@
+.wpbdp-submit-rootline {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	margin: 24px auto 36px;
+	text-align: center;
+	overflow: hidden;
+	color: #fff;
+}
+
+.wpbdp-submit-rootline .wpbdp-rootline-section {
+	width: 100%;
+}
+
+.wpbdp-submit-rootline .wpbdp-rootline-section .wpbdp-rootline-bar {
+	position: relative;
+	top: 24px;
+	width: calc(100% - 48px);
+	max-width: 100%;
+	height: 1px;
+	margin-left: calc(50% + 25px);
+	background-image: linear-gradient(to left, rgba(255, 255, 255, 0) 50%, #32373c 50%);
+	background-size: 10px;
+	background-position: bottom;
+	background-repeat: repeat-x;
+	display: block !important;
+}
+
+.wpbdp-submit-rootline .wpbdp-rootline-section.wpbdp-submit-checked .wpbdp-rootline-circle {
+	background: #32373c;
+	color: #fff;
+}
+
+.wpbdp-submit-rootline .wpbdp-rootline-section .wpbdp-rootline-section-name {
+	max-width: 130px;
+	margin: 12px auto 0;
+	opacity: 0.6;
+	font-size: 13px;
+	text-transform: uppercase;
+	color: #3F4B5B;
+}
+
+
+.wpbdp-submit-rootline .wpbdp-rootline-section .wpbdp-rootline-circle {
+	display: -webkit-inline-box;
+	display: -ms-inline-flexbox;
+	display: inline-flex;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+	-webkit-box-pack: center;
+	-ms-flex-pack: center;
+	justify-content: center;
+	z-index: 1;
+	width: 48px;
+	height: 48px;
+	border: 1px solid #32373c;
+	border-radius: 50%;
+	color: #3F4B5B;
+	font-size: 20px;
+	font-weight: 600;
+}
+
+.first_step select {
+	width: 100%;
+	border: 1px solid rgba(63,75,91,0.2);
+	min-height: 48px;
+	border-radius: 4px;
+	background-color: transparent;
+	padding: 6px 12px;
+	font-size: 17px;
+}
+
+.form-step.first_step {
+	text-align: center;
+}
+
+.first_step button {
+	display: inline-block;
+	margin: 0 auto;
+	background-color: #32373c;
+	border: none;
+	padding: 10px 20px;
+	color: #fff;
+	margin-top: 20px;
+	font-size: 19px;
+	cursor: pointer;
+	border-radius: 4px;
+}
+
+
+
+.wpbdp-submit-rootline .wpbdp-rootline-section .wpbdp-rootline-bar {
+	position: relative;
+	top: calc(48px / 2);
+	width: calc(100% - 48px);
+	max-width: 100%;
+	height: 1px;
+	margin-left: calc(50% + (48px / 2) + 1px);
+	
+}
+
+.for-two-full label {
+	width: 100%;
+	display: block;
+}
+
+.for-two-full input, .for-two-half input, .for-two-full textarea {
+	border: 1px solid rgba(63,75,91,0.2);
+	min-height: 48px;
+	width: 100%;
+	border-radius: 4px;
+	background-color: transparent;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.wpbdp-submit-rootline .wpbdp-rootline-section:last-of-type .wpbdp-rootline-bar {
+	background-image: none;
+}
+.error-message {
+	color: red;
+	margin-top: 0;
+	width: 100%;
+	float: left;
+}
+.for-two-half {
+	width: 49%;
+	float: left;
+	margin-right: 2%;
+}
+.required-symbol {
+    color: red;
+    margin-left: 4px;
+    font-weight: bold;
+}
+
+.for-two-half.for-two-half-right {
+	margin-right: 0;
+}
+
+.wpbdp-submit-listing-form-actions.wpbdp-full {
+	clear: both;
+	margin: 40px auto 0;
+	text-align: center;
+	float: left;
+	width: 100%;
+}
+.success-message{
+	color:green;
+}
+@media only screen and (max-width: 767px) {
+
+	.for-two-half {
+		width: 100%;
+	}
+	
+
+
+}

@@ -1,0 +1,243 @@
+/* ✅ Ensure popup is properly styled */
+.popup-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 1000;
+  }
+  
+  
+  .popup-body {
+	max-height: 60vh; /* Ensures content scrolls */
+	overflow-y: auto;
+	padding: 10px;
+  }
+  
+/* Close button styling */
+.popup-close {
+	position: absolute;
+	top: 10px;
+	right: 15px;
+	background: none;
+	border: none;
+	font-size: 18px;
+	cursor: pointer;
+  }
+  
+
+  
+  .popup-content {
+	background: white;
+	width: 90%;
+	max-width: 600px;
+	max-height: 80vh; /* Limits height */
+	overflow-y: auto; /* Enables scrolling */
+	padding: 20px;
+	border-radius: 10px;
+	position: relative;
+  }
+  
+  /* ✅ Alpine.js transition for popup */
+  [x-show="isPopupOpen"] {
+    display: flex;
+  }
+
+
+
+  .search-input {
+	border: 1px solid rgba(63,75,91,0.2);
+	border-radius: 4px;
+	min-height: 48px;
+	padding: 6px 12px;
+	width: 100%;
+	font-size: 16px;
+	color: #3F4B5B;
+}
+.main-input {
+	display: flex;
+}
+
+.main-input button {
+	background-color: #000;
+	color: #fff;
+	border: none;
+	margin: 0 10px;
+	width: 14%;
+	font-size: 18px;
+	font-weight: 500;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.main-input .filter-button {
+	background-color: transparent;
+	width: inherit;
+	/* font-size: 24px; */
+}
+
+.wpbdp-main-links {
+	display: flex;
+	justify-content: flex-end;
+	margin: 30px 0;
+	gap: 12px;
+}
+
+.wpbdp-link {
+	font-size: 20px;
+	text-decoration: none;
+	color: #5e5e5e;
+	font-weight: 400;
+	
+	display: table-cell;
+	padding-top: 6px;
+	vertical-align: middle;
+}
+
+.wpbdp-main-links button {
+	padding: 12px 20px;
+	background-color: transparent;
+	border: 1px solid #000;
+	font-size: 20px;
+	font-weight: 500;
+	border-radius: 4px;
+}
+
+.wpbdp-categories-large {
+	padding-left: 20px;
+	display: flex;
+	
+}
+
+.wpbdp-categories-large li {
+	width: 50%;
+	font-size: 18px;
+}
+
+.listing a h3 {
+	font-size: 30px;
+}
+
+.listing a {
+	color: #272c30;
+	font-size: 17px;
+}
+.for-two-full label {
+	width: 100%;
+	display: block;
+}
+
+.for-two-full input, .for-two-half input, .for-two-full textarea {
+	border: 1px solid rgba(63,75,91,0.2);
+	min-height: 48px;
+	width: 100%;
+	border-radius: 4px;
+	background-color: transparent;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.for-two-half {
+	width: 49%;
+	float: left;
+	margin-right: 2%;
+}
+
+/* Ensure all fields have space between them */
+.for-two-half, .for-two-full {
+	margin-bottom: 15px; /* Adds spacing between fields */
+  }
+  
+  /* Ensure last `.for-two-half` field takes full width */
+  .for-two-half:last-of-type {
+	width: 100%;
+  }
+  
+  /* Force buttons to be on a new line */
+  .wpbdp-submit-listing-form-actions {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 20px;
+	width: 100%;
+	flex-wrap: wrap; /* Prevents items from squeezing in the same row */
+	clear: both; /* Ensures buttons don't appear inline */
+  }
+
+  
+.for-two-half.for-two-half-right {
+	margin-right: 0;
+}
+
+
+/* Add spacing between fields */
+.for-two-full, .for-two-half, .for-two-half-right {
+	margin-bottom: 15px; /* Adds gap between fields */
+  }
+/* Labels should have spacing */
+label {
+	display: block;
+	font-weight: bold;
+	margin-bottom: 5px;
+  }
+  
+  /* Input and textarea spacing */
+  input, textarea {
+	width: 100%;
+	padding: 8px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	font-size: 14px;
+  }  
+
+  .wpbdp-categories-large li a {
+	color: #000;
+	text-decoration: none;
+}
+
+
+  @media only screen and (max-width: 767px) {
+
+  .main-input {
+	
+	flex-wrap: wrap;
+	gap: 20px;
+}
+
+
+.main-input button {
+	
+	width: auto;
+	margin:0;
+	padding: 10px 20px;
+}
+
+.main-input .filter-button {
+	padding: 0;
+}
+
+.wpbdp-main-links {
+	
+	flex-wrap: wrap;
+}
+
+.wpbdp-main-links button {
+	
+	width: 100%;
+}
+
+.wpbdp-categories-large {
+	
+	flex-wrap: wrap;
+}
+
+.wpbdp-categories-large li {
+	width: 100%;
+	
+	
+}
+
+  }
