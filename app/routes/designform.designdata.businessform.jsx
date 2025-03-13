@@ -125,12 +125,16 @@ export async function action({
           });
           const shopifyResponse = await shopifyCustomerResponse.json();
           if (!shopifyCustomerResponse.ok) {
+            console.log("Shopify Response Errors:", shopifyResponse.errors);
+
               let errorMessage = "Failed to create Shopify customer.";
               if (shopifyResponse.errors?.email) {
                   errorMessage = "Email has already been taken";
               } else if (shopifyResponse.errors) {
-                  errorMessage = Object.entries(shopifyResponse.errors).map(([key, value]) => `${value.join(", ")}`).join(" | ");
-              }
+                errorMessage = Object.entries(shopifyResponse.errors)
+                    .map(([key, value]) => Array.isArray(value) ? value.join(", ") : value)
+                    .join(" | ");
+            }
               console.error("Shopify Error:", errorMessage);
               return json({
                   success: false,
