@@ -3,9 +3,7 @@
 
 
 <div class="wpbdp-submit-rootline">
-			<div class="wpbdp-rootline-section wpbdp-submit-section-plan_selection wpbdp-submit-section-current wpbdp-submit-checked" 
-             x-bind:class="{'wpbdp-submit-checked': step >= 1, 'wpbdp-submit-highlight': step >= 2}"
-            data-section-pos="1">
+			<div class="wpbdp-rootline-section wpbdp-submit-section-plan_selection wpbdp-submit-section-current wpbdp-submit-checked" data-section-pos="1">
 			<div class="wpbdp-rootline-bar"></div>
 			<div class="wpbdp-rootline-circle">
 				<div class="wpbdp-rootline-counter">
@@ -126,7 +124,7 @@
 
       <div class="for-two-full">
       <label for="address">Address</label>
-      <input type="text" x-model="formData.address">
+      <textarea x-model="formData.address" required rows="4" ></textarea>
       </div>
 
       <div class="for-two-half">
@@ -234,6 +232,13 @@ document.addEventListener("alpine:init", () => {
             this.step1Error = "Please select a valid certification type.";
             return;
         }
+        
+         document.querySelectorAll(".wpbdp-rootline-section").forEach((section) => {
+            const counterSpan = section.querySelector(".wpbdp-rootline-counter span");
+            if (counterSpan && counterSpan.textContent.trim() === "1") {
+                section.classList.add("custom-class"); // Replace "custom-class" with your desired class
+            }
+    });
 
         this.step = 2; // Proceed to Step 2 if valid
     },
