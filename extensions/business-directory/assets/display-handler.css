@@ -48,7 +48,22 @@
     display: flex;
   }
 
+  .business-directory .listing {
+    padding-bottom: 40px;
+}
 
+.business-directory .listing h3 {
+    border-bottom: solid 1px #044f8d;
+    margin-bottom: 20px;
+    color: #62707c;
+}
+.business-directory .wpbdp-categories-large {
+    padding-left: 0;
+    padding-bottom: 30px;
+}
+.business-directory .listing p {
+    color: #3F4B5B;
+}
 
   .search-input {
 	border: 1px solid rgba(63,75,91,0.2);
