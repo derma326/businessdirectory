@@ -80,7 +80,7 @@
 
        <div class="for-two-full">
       <label for="instructor_name">Instructor or Course Name <span class="required-symbol">*</span></label>
-      <input type="text" x-model="formData.instructor_name" required>
+      <textarea  x-model="formData.instructor_name" required rows="4"></textarea>
                   <p x-show="errors.instructor_name" class="error-message" x-text="errors.instructor_name"></p>
 
       </div>
@@ -88,7 +88,7 @@
  <div class="for-two-full">
 
       <label for="expertise">Expertise & Credentials <span class="required-symbol">*</span></label>
-      <textarea x-model="formData.expertise" required></textarea>
+      <textarea x-model="formData.expertise" required rows="4" ></textarea>
             <p x-show="errors.expertise" class="error-message" x-text="errors.expertise"></p>
 
       </div>
