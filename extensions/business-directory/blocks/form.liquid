@@ -3,7 +3,9 @@
 
 
 <div class="wpbdp-submit-rootline">
-			<div class="wpbdp-rootline-section wpbdp-submit-section-plan_selection wpbdp-submit-section-current wpbdp-submit-checked" data-section-pos="1">
+			<div class="wpbdp-rootline-section wpbdp-submit-section-plan_selection wpbdp-submit-section-current wpbdp-submit-checked" 
+             x-bind:class="{'wpbdp-submit-checked': step >= 1, 'wpbdp-submit-highlight': step >= 2}"
+            data-section-pos="1">
 			<div class="wpbdp-rootline-bar"></div>
 			<div class="wpbdp-rootline-circle">
 				<div class="wpbdp-rootline-counter">
