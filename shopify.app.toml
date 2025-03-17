@@ -1,9 +1,9 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
-client_id = "a7d32ec9b8af30e642e58e57e47cee0e"
+client_id = "ccacaeae60ba14641705523b22a36abb"
 name = "dermaplane"
 handle = "dermaplane"
-application_url = "https://somewhat-essays-exception-donated.trycloudflare.com"
+application_url = "https://agrees-outsourcing-participants-plate.trycloudflare.com"
 embedded = true
 
 [build]
@@ -13,13 +13,13 @@ include_config_on_deploy = true
 
 [access_scopes]
 # Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
-scopes = "read_customers,write_customers,write_products"
+scopes = "read_customers, write_customers"
 
 [auth]
 redirect_urls = [
-  "https://somewhat-essays-exception-donated.trycloudflare.com/auth/callback",
-  "https://somewhat-essays-exception-donated.trycloudflare.com/auth/shopify/callback",
-  "https://somewhat-essays-exception-donated.trycloudflare.com/api/auth/callback"
+  "https://agrees-outsourcing-participants-plate.trycloudflare.com/auth/callback",
+  "https://agrees-outsourcing-participants-plate.trycloudflare.com/auth/shopify/callback",
+  "https://agrees-outsourcing-participants-plate.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

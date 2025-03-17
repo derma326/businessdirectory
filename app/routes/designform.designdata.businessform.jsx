@@ -7,6 +7,26 @@ import {
 import db from "../db.server";
 import fetch from "node-fetch";
 import slugify from "slugify";
+import shopify from "../shopify.server"; // Update the path if needed
+import { PrismaSessionStorage } from "@shopify/shopify-app-session-storage-prisma";
+
+const sessionStorage = new PrismaSessionStorage(prisma);
+
+
+async function getShopifyAccessToken(shop) {
+    const sessionId = `offline_${shop}`; // Ensure correct session format
+
+    const session = await sessionStorage.loadSession(sessionId);
+   // console.log("Session Data:", session); // Debugging log
+
+    if (session && session.accessToken) {
+        return session.accessToken;
+    }
+
+    throw new Error("Access token not found. Reinstall the app to authenticate.");
+}
+
+
 
 function validateAndFormatPhone(phone) {
   if (!phone) {
@@ -69,7 +89,7 @@ export async function action({
       const requiredFields = ["listing_title", "instructor_name", "expertise", "email"];
       const session = await getSession(request);
       let shopifyCustomerId = data.customerId;
-      console.log("Session Data:", shopifyCustomerId);
+      
       if (!shopifyCustomerId) {
           requiredFields.push("first_name", "last_name");
       }
@@ -102,9 +122,20 @@ export async function action({
           });
       }
       if (!shopifyCustomerId) {
-          const shopifyAccessToken = process.env.SHOPIFY_ACCESS_TOKEN;
-          console.log(shopifyAccessToken);
-          const shopifyCustomerResponse = await fetch("https://vwygcw-t0.myshopify.com/admin/api/2023-01/customers.json", {
+        const url = new URL(request.url);
+        const shop = url.searchParams.get("shop"); // Extract shop from query params
+    
+      
+        if (!shop) {
+            throw new Error("Shop is undefined. Ensure the store URL is stored in the session.");
+        }
+       // console.log(shop);
+        const shopifyAccessToken = await getShopifyAccessToken(`${shop}`);
+
+          console.log("Access token",shopifyAccessToken);
+          console.log("Shopify API URL:", `https://${shop}/admin/api/2023-01/customers.json`);
+
+          const shopifyCustomerResponse = await fetch(`https://${shop}/admin/api/2023-01/customers.json`, {
               method: "POST",
               headers: {
                   "Content-Type": "application/json",
@@ -136,7 +167,7 @@ export async function action({
                     .map(([key, value]) => Array.isArray(value) ? value.join(", ") : value)
                     .join(" | ");
             }
-              console.error("Shopify Error:", errorMessage);
+             // console.error("Shopify Error:", errorMessage);
               return json({
                   success: false,
                   error: errorMessage
@@ -146,6 +177,8 @@ export async function action({
           }
           shopifyCustomerId = shopifyResponse.customer.id;
       }
+      console.log("Creating business directory listing:", data);
+
       const newListing = await db.businessDirectory.create({
           data: {
               listingTitle: data.listing_title,
