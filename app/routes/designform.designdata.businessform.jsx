@@ -10,7 +10,7 @@ import slugify from "slugify";
 
 import { PrismaSessionStorage } from "@shopify/shopify-app-session-storage-prisma";
 
-const sessionStorage = new PrismaSessionStorage(prisma);
+const sessionStorage = new PrismaSessionStorage(db);
 
 
 async function getShopifyAccessToken(shop) {
