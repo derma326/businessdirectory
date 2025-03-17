@@ -7,7 +7,7 @@ import {
 import db from "../db.server";
 import fetch from "node-fetch";
 import slugify from "slugify";
-import shopify from "../shopify.server"; // Update the path if needed
+
 import { PrismaSessionStorage } from "@shopify/shopify-app-session-storage-prisma";
 
 const sessionStorage = new PrismaSessionStorage(prisma);
