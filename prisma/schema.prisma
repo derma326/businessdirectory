@@ -13,6 +13,7 @@ datasource db {
   url      = "postgresql://businesslistingdb_user:in1It4aLXKrqHimTiIlSly7LYCUWgxXC@dpg-cv98k5pu0jms73egl3bg-a.oregon-postgres.render.com/businesslistingdb"
 }  
 
+
 model Session {
   id            String    @id
   shop          String

@@ -1,25 +1,31 @@
-
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<div x-data="jewelryForm">
 <h3> Add Listing</h3>
 
-
+ <p>Current Step: <span x-text="step"></span></p>
 <div class="wpbdp-submit-rootline">
-			<div class="wpbdp-rootline-section wpbdp-submit-section-plan_selection wpbdp-submit-section-current wpbdp-submit-checked" data-section-pos="1">
+
+
+			<div class="wpbdp-rootline-section wpbdp-submit-section-plan_selection wpbdp-submit-section-current wpbdp-submit-checked" 
+                x-bind:class="{'tick-mark': step >= 2}"
+            data-section-pos="1">
 			<div class="wpbdp-rootline-bar"></div>
 			<div class="wpbdp-rootline-circle">
 				<div class="wpbdp-rootline-counter">
-								<span>1</span>
+                                    <span x-text="step >= 2 ? '✔' : '1'"></span>
+
 				</div>
 			</div>
 			<div class="wpbdp-rootline-section-name">Category selection</div>
 		</div>
 		<div class="wpbdp-rootline-section wpbdp-submit-section-listing_fields"
-         x-bind:class="{'wpbdp-submit-checked': step >= 2, 'wpbdp-current-step': step === 2}"
+         x-bind:class="{'tick-mark': step >= 3}"
      data-section-pos="2">
 
 			<div class="wpbdp-rootline-bar"></div>
 			<div class="wpbdp-rootline-circle">
 				<div class="wpbdp-rootline-counter">
-								<span>2</span>
+							 <span x-text="step >= 3 ? '✔' : '2'"></span>
 				</div>
 			</div>
 			<div class="wpbdp-rootline-section-name">Listing Information</div>
@@ -27,13 +33,13 @@
        {% unless customer %}
 
 		<div class="wpbdp-rootline-section wpbdp-submit-section-account_creation"
-     x-bind:class="{'wpbdp-submit-checked': step === 3}" 
+      x-bind:class="{'tick-mark': step === 3}"
      data-section-pos="3">
 
 			<div class="wpbdp-rootline-bar"></div>
 			<div class="wpbdp-rootline-circle">
 				<div class="wpbdp-rootline-counter">
-								<span>3</span>
+								 <span x-text="step === 3 ? '✔' : '3'"></span>
 				</div>
 			</div>
 			<div class="wpbdp-rootline-section-name">Account Creation</div>
@@ -41,10 +47,10 @@
         {% endunless  %}
 
 	</div>
-<div class="jewelry-design-form" x-data="jewelryForm">
+<div class="jewelry-design-form">
 
   
- 
+
   <h1 style="text-align: {{ block.settings.alignment }}">{{ block.settings.form_title }}</h1>
 
   <!-- Step 1: Certification Type -->
@@ -190,8 +196,8 @@
  
 
 </div>
+</div>
 
-<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 <script>
 document.addEventListener("alpine:init", () => {
     Alpine.data("jewelryForm", () => ({
@@ -233,13 +239,7 @@ document.addEventListener("alpine:init", () => {
             return;
         }
         
-         document.querySelectorAll(".wpbdp-rootline-section").forEach((section) => {
-            const counterSpan = section.querySelector(".wpbdp-rootline-counter span");
-            if (counterSpan && counterSpan.textContent.trim() === "1") {
-                section.classList.add("custom-class"); // Replace "custom-class" with your desired class
-            }
-    });
-
+        
         this.step = 2; // Proceed to Step 2 if valid
     },
      validateStep2() {
