@@ -1,9 +1,10 @@
 import { json } from "@remix-run/node";
 import { useLoaderData, useFetcher } from "@remix-run/react";
 import { Page, Card, DataTable, Text, Button } from "@shopify/polaris";
+import { useState } from "react";
 import db from "../db.server";
 
-//  Loader function to fetch Listings
+// 🟢 Loader function to fetch Listings
 export async function loader() {
   const listing = await db.businessDirectory.findMany({
     orderBy: { id: "desc" },
@@ -18,7 +19,7 @@ export async function loader() {
   return json(formattedListing);
 }
 
-//  Action function to handle Approve/Disapprove
+// 🟢 Action function to handle Approve/Disapprove
 export async function action({ request }) {
   try {
     const formData = await request.formData();
@@ -37,10 +38,17 @@ export async function action({ request }) {
   }
 }
 
-//  Business Listing Page
+// 🟢 Business Listing Page
 export default function BusinessListingPage() {
   const listing = useLoaderData();
-  const fetcher = useFetcher(); // Fetcher for submitting actions without full reload
+  const fetcher = useFetcher();
+  const [loadingId, setLoadingId] = useState(null); // Track which button is loading
+
+  const handleSubmit = (e, id) => {
+    e.preventDefault();
+    setLoadingId(id); // Set loading state for this button
+    fetcher.submit(e.currentTarget.form);
+  };
 
   const rows = listing.map((businesslist, index) => [
     index + 1,
@@ -52,8 +60,8 @@ export default function BusinessListingPage() {
       <input type="hidden" name="approve" value={businesslist.status === "Active" ? "0" : "1"} />
       <Button
         size="slim"
-        loading={fetcher.state !== "idle"} // Show loading state
-        onClick={() => fetcher.submit(event.currentTarget.form)}
+        loading={loadingId === businesslist.id} // Only show loading for clicked button
+        onClick={(e) => handleSubmit(e, businesslist.id)}
       >
         {businesslist.status === "Active" ? "Disapprove" : "Approve"}
       </Button>
