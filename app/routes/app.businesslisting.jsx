@@ -3,38 +3,38 @@ import { useLoaderData } from "@remix-run/react";
 import { Page, Card, DataTable, Text } from "@shopify/polaris";
 import db from "../db.server";
 
-// Loader function to fetch categories
+// Loader function to fetch Listing
 export async function loader() {
-  // Fetch categories from the database
-  const categories = await db.categories.findMany({
+  // Fetch Listing from the database
+  const listing = await db.businessDirectory.findMany({
     orderBy: {
       id: "desc", // Assuming 'id' is auto-incremented
     },
   });
   
-  return json(categories);
+  return json(listing);
 }
 
-// Categories List Page
-export default function CategoriesPage() {
-  const categories = useLoaderData(); // Get data from loader
+// Business Listing Page
+export default function BusinessListingPage() {
+  const listing = useLoaderData(); // Get data from loader
 
   // Format data for DataTable
-  const rows = categories.map((category, index) => [
+  const rows = listing.map((businesslist, index) => [
     index + 1,
-    category.categoryName,
-    category.categorySlug,
+    businesslist.listingTitle,
+    businesslist.email,
   ]);
 
   return (
-    <Page title="Categories List">
+    <Page title="Listing List">
       <Card>
         <Text as="h3" variant="headingMd" padding="400">
-          Categories
+          Listing
         </Text>
         <DataTable
           columnContentTypes={["numeric", "text", "text"]}
-          headings={["#", "Category Name", "Slug"]}
+          headings={["#", "Listing Title", "Email"]}
           rows={rows}
         />
       </Card>
