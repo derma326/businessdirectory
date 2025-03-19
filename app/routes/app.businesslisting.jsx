@@ -19,7 +19,7 @@ export async function loader() {
     userId: item.userId !== undefined && item.userId !== null 
       ? item.userId.toString() 
       : null, // Convert BigInt to String
-    status: item.active === 1 ? "Active" : "Inactive", // Convert active status
+    status: item.approve === 1 ? "Active" : "Inactive", // Convert active status
   }));
 
   return json(formattedListing);
@@ -35,7 +35,7 @@ export default function BusinessListingPage() {
     index + 1,
     businesslist.listingTitle,
     businesslist.email,
-    businesslist.approve, // Add status column
+    businesslist.status, // Add status column
 
   ]);
 
