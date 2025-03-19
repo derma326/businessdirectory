@@ -12,7 +12,13 @@ export async function loader() {
     },
   });
   
-  return json(listing);
+    // Convert BigInt to Number
+    const formattedListing = listing.map((item) => ({
+        ...item,
+        id: Number(item.id), // Convert BigInt to Number
+      }));
+
+  return json(formattedListing);
 }
 
 // Business Listing Page
