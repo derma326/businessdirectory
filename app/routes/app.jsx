@@ -24,6 +24,7 @@ export default function App() {
         </Link>
         <Link to="/app/categories">Add Category</Link>
         <Link to="/app/listcategories">List Categories</Link>
+        <Link to="/app/businesslisting">Business Listing</Link>
       </NavMenu>
       <Outlet />
     </AppProvider>
