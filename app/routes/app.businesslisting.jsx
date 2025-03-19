@@ -12,11 +12,11 @@ export async function loader() {
     },
   });
   
-    // Convert BigInt to Number
-    const formattedListing = listing.map((item) => ({
-        ...item,
-        id: Number(item.id), // Convert BigInt to Number
-      }));
+  // Convert BigInt fields to Number or String
+  const formattedListing = listing.map((item) => ({
+    ...item,
+    userId: item.userId ? item.userId.toString() : null, // Convert BigInt to String
+  }));
 
   return json(formattedListing);
 }
