@@ -12,7 +12,10 @@ export async function loader({ request }) {
     // If `slug` is provided, fetch that specific listing
     if (slug) {
       const listing = await db.businessDirectory.findFirst({
-        where: { slug },
+        where: { 
+          slug, 
+          approve: 1 // Only fetch approved listings
+        },
         include: {
           category: true, // Fetch related category data
         },

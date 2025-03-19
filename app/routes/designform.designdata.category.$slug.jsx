@@ -9,7 +9,11 @@ export async function loader({ params, request }) {
   try {
     const category = await db.categories.findFirst({
       where: { categorySlug: slug },
-      include: { businessListings: true }, // Fetch business listings
+      include: { 
+        businessListings: {
+          where: { approve: 1 }, // Fetch only approved business listings
+        },
+       }, // Fetch business listings
     });
 
     if (!category) {
