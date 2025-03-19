@@ -56,6 +56,7 @@ model businessDirectory {
   zip           String?
   userId        BigInt
   categoryId    Int
+  approve       Int @default(0)  // New column to store approval status (0 = pending, 1 = approved)
   createdAt     DateTime @default(now()) 
 
   category      Categories @relation(fields: [categoryId], references: [id]) // Relation to Categories

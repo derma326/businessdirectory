@@ -6,6 +6,9 @@ export async function loader({ request }) {
 
   try {
     const listings = await db.businessDirectory.findMany({
+      where: {
+        approve: 1, // Filter only approved listings
+      },
         include: {
           category: true, // Fetch related category data
         },
