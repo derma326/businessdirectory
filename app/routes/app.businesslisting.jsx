@@ -25,8 +25,6 @@ export async function loader() {
   return json(formattedListing);
 }
 
-  return json(formattedListing);
-}
 
 // Business Listing Page
 export default function BusinessListingPage() {
