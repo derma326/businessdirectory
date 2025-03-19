@@ -13,10 +13,17 @@ export async function loader() {
   });
   
   // Convert BigInt fields to Number or String
-  const formattedListing = listing.map((item) => ({
+ // Convert BigInt fields to Number or String and map status
+ const formattedListing = listing.map((item) => ({
     ...item,
-    userId: item.userId ? item.userId.toString() : null, // Convert BigInt to String
+    userId: item.userId !== undefined && item.userId !== null 
+      ? item.userId.toString() 
+      : null, // Convert BigInt to String
+    status: item.active === 1 ? "Active" : "Inactive", // Convert active status
   }));
+
+  return json(formattedListing);
+}
 
   return json(formattedListing);
 }
@@ -30,6 +37,8 @@ export default function BusinessListingPage() {
     index + 1,
     businesslist.listingTitle,
     businesslist.email,
+    businesslist.approve, // Add status column
+
   ]);
 
   return (
@@ -39,8 +48,8 @@ export default function BusinessListingPage() {
           Listing
         </Text>
         <DataTable
-          columnContentTypes={["numeric", "text", "text"]}
-          headings={["#", "Listing Title", "Email"]}
+          columnContentTypes={["numeric", "text", "text", "text"]}
+          headings={["#", "Listing Title", "Email", "Status"]}
           rows={rows}
         />
       </Card>
