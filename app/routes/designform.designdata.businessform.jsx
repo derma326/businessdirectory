@@ -9,8 +9,38 @@ import fetch from "node-fetch";
 import slugify from "slugify";
 
 import { PrismaSessionStorage } from "@shopify/shopify-app-session-storage-prisma";
+import nodemailer from "nodemailer";
+
+
 
 const sessionStorage = new PrismaSessionStorage(db);
+// Configure the mail transport
+const transporter = nodemailer.createTransport({
+    service: "gmail", // Change this based on your mail provider
+    auth: {
+        user: process.env.EMAIL_USER, // Your email address
+        pass: process.env.EMAIL_PASS  // Your email password or app password
+    }
+});
+
+
+// Function to send email
+async function sendListingConfirmation(email, listingTitle) {
+    const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to: email,
+        subject: "Your Business Listing Submission",
+        text: `Dear User,\n\nYour listing "${listingTitle}" has been successfully submitted. It will be reviewed and approved within 24 hours.\n\nThank you!`,
+        html: `<p>Dear User,</p><p>Your listing <strong>${listingTitle}</strong> has been successfully submitted.</p><p>It will be reviewed and approved within <strong>24 hours</strong>.</p><p>Thank you!</p>`
+    };
+
+    try {
+        await transporter.sendMail(mailOptions);
+        console.log("Confirmation email sent successfully.");
+    } catch (error) {
+        console.error("Error sending email:", error);
+    }
+}
 
 
 async function getShopifyAccessToken(shop) {
@@ -199,6 +229,10 @@ export async function action({
               categoryId: parseInt(data.design_options, 10),
           },
       });
+
+      // Inside your action function after creating the listing
+        await sendListingConfirmation(data.email, data.listing_title);
+
       const responseData = {
           ...newListing,
           userId: newListing.userId.toString(),
