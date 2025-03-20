@@ -29,6 +29,7 @@ async function sendListingConfirmation(email, listingTitle) {
     const mailOptions = {
         from: process.env.EMAIL_USER,
         to: email,
+        replyTo: "lumhosderma@gmail.com", // Set your custom reply-to email
         subject: "Your Business Listing Submission",
         text: `Dear User,\n\nYour listing "${listingTitle}" has been successfully submitted. It will be reviewed and approved within 24 hours.\n\nThank you!`,
         html: `<p>Dear User,</p><p>Your listing <strong>${listingTitle}</strong> has been successfully submitted.</p><p>It will be reviewed and approved within <strong>24 hours</strong>.</p><p>Thank you!</p>`
