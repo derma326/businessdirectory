@@ -348,6 +348,13 @@ document.addEventListener("alpine:init", () => {
                         first_name: "",
                         last_name: "",
                     };
+
+                      // Hide success message after 5 seconds
+                    setTimeout(() => {
+                        this.success = false;
+                        this.successMessage = "";
+                    }, 10000);
+
                 } else {
                     this.errorMessage = data.error || "Submission failed.";
                 }
